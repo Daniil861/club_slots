@@ -517,7 +517,7 @@
             }
         });
         var mcasino2 = new SlotMachine(casino2, {
-            active: 2,
+            active: 5,
             delay: 800,
             onComplete: function(active) {
                 b = this.active;
@@ -531,7 +531,7 @@
             }
         });
         var mcasino3 = new SlotMachine(casino3, {
-            active: 3,
+            active: 9,
             delay: 800,
             onComplete: function(active) {
                 c = this.active;
@@ -545,7 +545,7 @@
             }
         });
         var mcasino4 = new SlotMachine(casino4, {
-            active: 1,
+            active: 13,
             delay: 800,
             onComplete: function(active) {
                 d = this.active;
