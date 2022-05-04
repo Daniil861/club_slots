@@ -631,15 +631,27 @@
     function get_target_block() {
         let arrow_top = document.querySelector(".circle__dot").getBoundingClientRect().top + 10;
         let arrow_left = document.querySelector(".circle__dot").getBoundingClientRect().left;
-        let target_block = document.elementFromPoint(arrow_left, arrow_top);
-        console.log(`arrow_top - ${arrow_top}`);
-        console.log(`arrow_left - ${arrow_left}`);
-        console.log(target_block);
-        return target_block;
+        let dot = document.createElement("div");
+        dot.style.width = `5px`;
+        dot.style.height = `5px`;
+        dot.style.position = `fixed`;
+        dot.style.zIndex = `10`;
+        dot.style.top = `${arrow_top}px`;
+        dot.style.left = `${arrow_left}px`;
+        document.querySelector(".wrapper").append(dot);
+        let arrow_top2 = dot.getBoundingClientRect().top + 10;
+        let arrow_left2 = dot.getBoundingClientRect().left;
+        let target_block2 = document.elementFromPoint(arrow_left2, arrow_top2);
+        setTimeout((() => {
+            dot.remove();
+        }), 1e3);
+        return target_block2;
     }
     function check_target_item(block) {
         let value = block.dataset.target;
-        if ("bonus" == value) document.querySelector(".bonus").classList.add("_active"); else if (+value > 0) add_money(100 + +value, ".check", 1e3, 2e3);
+        if ("bonus" == value) setTimeout((() => {
+            document.querySelector(".bonus").classList.add("_active");
+        }), 1e3); else if (+value > 0) add_money(100 + +value, ".check", 1e3, 2e3);
     }
     function create_bonus() {
         let bonus_arr = get_random_bonuses_arr();
@@ -685,7 +697,7 @@
         let zero = document.createElement("div");
         zero.classList.add("bonus__zero");
         zero.classList.add("text");
-        zero.classList.add("text_orange");
+        zero.classList.add("text_yellow");
         zero.textContent = "zero";
         return zero;
     }
@@ -749,8 +761,10 @@
             setTimeout((() => {
                 add_remove_className(".controls__btn-spin", "_hold");
                 if (document.querySelector(".controls__btn-free").classList.contains("_active")) add_remove_className(".controls__btn-free", "_hold");
-                let block = get_target_block();
-                check_target_item(block);
+                setTimeout((() => {
+                    let block = get_target_block();
+                    check_target_item(block);
+                }), 100);
             }), 2e3);
         }
         if (targetElement.closest(".controls__btn-free") && targetElement.closest(".controls__btn-free").classList.contains("_active")) {
@@ -760,8 +774,10 @@
             setTimeout((() => {
                 add_remove_className(".controls__btn-spin", "_hold");
                 add_remove_className(".controls__btn-free", "_hold");
-                let block = get_target_block();
-                check_target_item(block);
+                setTimeout((() => {
+                    let block = get_target_block();
+                    check_target_item(block);
+                }), 100);
                 sessionStorage.setItem("free-btn", +sessionStorage.getItem("free-btn") - 1);
                 if (0 == +sessionStorage.getItem("free-btn")) add_remove_className(".controls__btn-free", "_active");
             }), 2e3);
