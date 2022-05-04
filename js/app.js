@@ -617,6 +617,7 @@
     if (document.querySelector(".game__body") && document.querySelector(".preloader").classList.contains("_hide")) {
         document.querySelector(".game__body").classList.add("_active");
         create_bonus();
+        if (+sessionStorage.getItem("free-btn") > 0) add_remove_className(".controls__btn-free", "_active");
     }
     const config_game = {
         last_rotate: 0,
@@ -702,7 +703,10 @@
         return shuffle(arr_bonuses);
     }
     function check_win_count(targetElement) {
-        if ("money" == targetElement.dataset.prize) add_money(1e5, ".check", 1e3, 2e3); else if ("free" == targetElement.dataset.prize) if (sessionStorage.getItem("free-btn")) sessionStorage.setItem("free-btn", +sessionStorage.getItem("free-btn") + 1); else sessionStorage.setItem("free-btn", 1);
+        if ("money" == targetElement.dataset.prize) add_money(1e5, ".check", 1e3, 2e3); else if ("free" == targetElement.dataset.prize) {
+            if (sessionStorage.getItem("free-btn")) sessionStorage.setItem("free-btn", +sessionStorage.getItem("free-btn") + 1); else sessionStorage.setItem("free-btn", 1);
+            add_remove_className(".controls__btn-free", "_active");
+        }
     }
     function delete_items() {
         if (document.querySelector(".bonus__zero")) document.querySelectorAll(".bonus__zero").forEach((el => el.remove()));
@@ -741,10 +745,25 @@
             rotate_drum();
             delete_money(100, ".check");
             add_remove_className(".controls__btn-spin", "_hold");
+            if (document.querySelector(".controls__btn-free").classList.contains("_active")) add_remove_className(".controls__btn-free", "_hold");
             setTimeout((() => {
                 add_remove_className(".controls__btn-spin", "_hold");
+                if (document.querySelector(".controls__btn-free").classList.contains("_active")) add_remove_className(".controls__btn-free", "_hold");
                 let block = get_target_block();
                 check_target_item(block);
+            }), 2e3);
+        }
+        if (targetElement.closest(".controls__btn-free") && targetElement.closest(".controls__btn-free").classList.contains("_active")) {
+            rotate_drum();
+            add_remove_className(".controls__btn-spin", "_hold");
+            add_remove_className(".controls__btn-free", "_hold");
+            setTimeout((() => {
+                add_remove_className(".controls__btn-spin", "_hold");
+                add_remove_className(".controls__btn-free", "_hold");
+                let block = get_target_block();
+                check_target_item(block);
+                sessionStorage.setItem("free-btn", +sessionStorage.getItem("free-btn") - 1);
+                if (0 == +sessionStorage.getItem("free-btn")) add_remove_className(".controls__btn-free", "_active");
             }), 2e3);
         }
         if (targetElement.closest(".bonus__item")) {
