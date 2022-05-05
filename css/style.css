@@ -327,6 +327,9 @@ body._hold {
   color: #ffffff;
   padding: 0 0.625rem;
 }
+.block-bet__coins._no-money {
+  animation: no-money 0.5s ease 2;
+}
 .button-back {
   position: absolute;
   top: 0.625rem;
@@ -355,27 +358,6 @@ body._hold {
 
 .slotMachineBlurFast {
   transition: all 0.1s ease;
-  -webkit-filter: blur(5px);
-  filter: blur(5px);
-}
-
-.slotMachineBlurMedium {
-  -webkit-filter: blur(3px);
-  filter: blur(3px);
-}
-
-.slotMachineBlurSlow {
-  -webkit-filter: blur(2px);
-  filter: blur(2px);
-}
-
-.slotMachineBlurTurtle {
-  -webkit-filter: blur(1px);
-  filter: blur(1px);
-}
-
-.slotMachineGradient {
-  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(25%, rgb(0, 0, 0)), color-stop(75%, rgb(0, 0, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
 }
 
 .main__body {
