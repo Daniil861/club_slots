@@ -504,7 +504,7 @@
         let a, b, c, d, e;
         var mcasino1 = new SlotMachine(casino1, {
             active: 1,
-            delay: 800,
+            delay: 700,
             onComplete: function(active) {
                 a = this.active;
                 clean_bet();
@@ -518,7 +518,7 @@
         });
         var mcasino2 = new SlotMachine(casino2, {
             active: 5,
-            delay: 800,
+            delay: 700,
             onComplete: function(active) {
                 b = this.active;
                 clean_bet();
@@ -532,7 +532,7 @@
         });
         var mcasino3 = new SlotMachine(casino3, {
             active: 3,
-            delay: 800,
+            delay: 700,
             onComplete: function(active) {
                 c = this.active;
                 clean_bet();
@@ -546,7 +546,7 @@
         });
         var mcasino4 = new SlotMachine(casino4, {
             active: 2,
-            delay: 800,
+            delay: 700,
             onComplete: function(active) {
                 d = this.active;
                 clean_bet();
@@ -560,7 +560,7 @@
         });
         var mcasino5 = new SlotMachine(casino5, {
             active: 4,
-            delay: 800,
+            delay: 700,
             onComplete: function(active) {
                 e = this.active;
                 clean_bet();
@@ -573,11 +573,11 @@
             }
         });
         function gameSlot() {
-            mcasino1.shuffle(10);
-            mcasino2.shuffle(10);
-            mcasino3.shuffle(10);
-            mcasino4.shuffle(10);
-            mcasino5.shuffle(10);
+            mcasino1.shuffle(5);
+            mcasino2.shuffle(5);
+            mcasino3.shuffle(5);
+            mcasino4.shuffle(5);
+            mcasino5.shuffle(5);
             setTimeout((() => mcasino1.stop()), get_random(minTime, maxTime));
             setTimeout((() => mcasino2.stop()), get_random(minTime, maxTime));
             setTimeout((() => mcasino3.stop()), get_random(minTime, maxTime));
@@ -592,20 +592,22 @@
         }
         var casinoAutoSpin;
         if (document.querySelector(".controls-game__button-spin")) document.querySelector(".controls-game__button-spin").addEventListener("click", (() => {
-            a = 666;
-            b = 666;
-            c = 666;
-            d = 666;
-            e = 666;
-            if (casino1 && casino2 && casino3 && casino4 && casino5 && +sessionStorage.getItem("money") > +sessionStorage.getItem("current-bet")) {
-                delete_money(+sessionStorage.getItem("current-bet"), ".check");
-                clearInterval(casinoAutoSpin);
-                gameSlot();
-                document.querySelector(".controls-game__button-spin").classList.add("_hold");
-                setTimeout((() => {
-                    document.querySelector(".controls-game__button-spin").classList.remove("_hold");
-                }), 3500);
-            } else no_money(".check");
+            if (+sessionStorage.getItem("current-bet") > 0) {
+                a = 666;
+                b = 666;
+                c = 666;
+                d = 666;
+                e = 666;
+                if (casino1 && casino2 && casino3 && casino4 && casino5 && +sessionStorage.getItem("money") > +sessionStorage.getItem("current-bet")) {
+                    delete_money(+sessionStorage.getItem("current-bet"), ".check");
+                    clearInterval(casinoAutoSpin);
+                    gameSlot();
+                    document.querySelector(".controls-game__button-spin").classList.add("_hold");
+                    setTimeout((() => {
+                        document.querySelector(".controls-game__button-spin").classList.remove("_hold");
+                    }), 3500);
+                } else no_money(".check");
+            } else no_money(".block-bet__coins");
         }));
     }
     function write_slot_current_win() {
